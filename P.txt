@@ -1,0 +1,22 @@
+conf t
+!
+interface Loopback1
+ ip address 3.3.3.3 255.255.255.255
+!
+interface Fa 0/0
+ ip address 192.168.23.3 255.255.255.0
+ duplex auto
+ speed auto
+ no shutdown
+!
+interface Fa 0/1
+ ip address 192.168.34.3 255.255.255.0
+ duplex auto
+ speed auto
+ no shutdown
+!
+router ospf 1
+ log-adjacency-changes
+ network 192.168.23.0 0.0.0.255 area 0
+ network 192.168.34.0 0.0.0.255 area 0
+ network 3.3.3.3 0.0.0.0 area 0

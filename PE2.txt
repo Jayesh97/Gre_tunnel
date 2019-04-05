@@ -1,0 +1,33 @@
+conf t
+!
+interface Loopback1
+ ip address 4.4.4.4 255.255.255.255
+!
+interface Tunnel0
+ ip address 192.168.24.4 255.255.255.0
+ tunnel source 4.4.4.4
+ tunnel destination 2.2.2.2
+!
+interface Fa 0/0
+ ip address 192.168.34.4 255.255.255.0
+ duplex auto
+ speed auto
+ no shutdown
+!
+interface Fa 0/1
+ ip address 192.168.45.4 255.255.255.0
+ duplex auto
+ speed auto
+ no shutdown
+!
+router ospf 1
+ log-adjacency-changes
+ network 192.168.34.0 0.0.0.255 area 0
+ network 4.4.4.4 0.0.0.0 area 0
+!
+router bgp 1234
+ bgp log-neighbor-changes
+ no synchronization
+  neighbor 192.168.24.2 remote-as 1234
+ neighbor 192.168.24.2 next-hop-self
+ neighbor 192.168.45.5 remote-as 20

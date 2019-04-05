@@ -1,0 +1,16 @@
+conf t
+!
+interface Loopback1
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Fa 0/0
+ ip address 192.168.12.1 255.255.255.0
+ duplex auto
+ speed auto
+ no shutdown
+!
+router bgp 10
+ bgp log-neighbor-changes
+ no synchronization
+ neighbor 192.168.12.2 remote-as 1234
+ network 1.1.1.1 mask 255.255.255.255
